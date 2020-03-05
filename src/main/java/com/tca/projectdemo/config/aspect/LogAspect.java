@@ -30,10 +30,10 @@ public class LogAspect {
     @Pointcut(POINT_CUT)
     private void pointcut(){}
 
-    @Before(value = "pointcut()")
+   /* @Before(value = "pointcut()")
     public void before(JoinPoint joinPoint) {
         log.info("开始执行方法: {}, 入参: {}", joinPoint.getSignature(), joinPoint.getArgs());
-    }
+    }*/
 
     @Around(value = "pointcut()")
     public Object around(ProceedingJoinPoint proceedingJoinPoint) {
@@ -41,7 +41,8 @@ public class LogAspect {
             long startTime = System.currentTimeMillis();
             Object result = proceedingJoinPoint.proceed();
             long endTime = System.currentTimeMillis();
-            log.info("方法执行时间为: {} ms", endTime - startTime);
+            log.info("execute:[{}], in:[{}], out:[{}], time:[{} ms]", proceedingJoinPoint.getSignature(),
+                    proceedingJoinPoint.getArgs(), result, endTime - startTime);
             return result;
         } catch (Throwable throwable) {
             throwable.printStackTrace();
